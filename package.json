@@ -1,5 +1,5 @@
 {
-  "name": "LocaleBridge",
+  "name": "nexus-bridge",
   "version": "1.0.0",
   "description": "A CLI tool for managig localization keys and values for i18nexus",
   "main": "src/index.js",
@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "eslint . --fix",
     "bridge": "node src/index.js",
-    "LocalBridge": "node src/index.js",
+    "nexus-bridge": "node src/index.js",
     "delete-test": "yarn run bridge D -f common.json -ns common -l en",
     "import-test": "yarn run bridge i -f common.json -ns common -l en"
   },
