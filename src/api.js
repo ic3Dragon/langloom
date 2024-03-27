@@ -1,9 +1,9 @@
 const axios = require('axios');
 const { traverse } = require('./file');
 
+const { I18NEXUS_API_KEY, I18NEXUS_API_BEARER } = require('../env');
+
 const path = 'https://api.i18nexus.com/project_resources';
-const I18NEXUS_API_KEY = process.env.I18NEXUS_API_KEY;
-const I18NEXUS_API_BEARER = process.env.I18NEXUS_API_BEARER; // OBS: node is not running so there is no process going, move these to be asked for at start?
 
 async function fetchRemoteKeys(namespace, language) {
   try {
@@ -64,8 +64,9 @@ async function removeUnusedKeys(namespace, localKeys, language) {
         });
 
         result.removed++;
+        console.log(`Deleted key "${key}"`)
       } catch (error) {
-        console.log('Failed to remove: ', { key, reason: error.message })
+        console.log(`Failed to remove key "${key}" `, { error: error.message })
         result.failed++;
       }
     }
