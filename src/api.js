@@ -1,4 +1,6 @@
 const axios = require('axios');
+const fetch = require('node-fetch');
+
 const { traverse } = require('./file');
 
 const { I18NEXUS_API_KEY, I18NEXUS_API_BEARER } = require('../env');
@@ -49,7 +51,7 @@ async function removeUnusedKeys(namespace, localKeys, language) {
 
   for (const key of remoteKeys) {
     if (!localKeys.includes(key)) {
-      const data = {
+      const body = {
         id: {
           key: key,
           namespace: namespace
@@ -57,16 +59,26 @@ async function removeUnusedKeys(namespace, localKeys, language) {
       };
 
       try {
-        await axios.delete(`${path}/base_strings.json?api_key=${I18NEXUS_API_KEY}`, { data }, {
-          headers: {
-            'Authorization': `Bearer ${I18NEXUS_API_BEARER}`
-          }
-        });
+        await fetch(`${path}/base_strings.json?api_key=${I18NEXUS_API_KEY}`, {
+          method: 'delete',
+          body: {
+            id: {
+              key: "good-bye-now",
+              namespace: "common"
+            }
+          },
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${I18NEXUS_API_BEARER}` }
+        }).then(res => console.log(res));
+        // await axios.delete(`${path}/base_strings.json?api_key=${I18NEXUS_API_KEY}`, {
+        //   headers: {
+        //     'Authorization': `Bearer ${I18NEXUS_API_BEARER}`
+        //   }
+        // });
 
         result.removed++;
-        console.log(`Deleted key "${key}"`)
+        console.info(`Deleted key "${key}"`)
       } catch (error) {
-        console.log(`Failed to remove key "${key}" `, { error: error.message })
+        console.error(`Failed to remove key "${key}" `, { error: error.message })
         result.failed++;
       }
     }
