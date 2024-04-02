@@ -28,7 +28,7 @@ program.command('import').alias('i')
     await importKeys(namespace, language, localData, apiKey, token);
   });
 
-program.command('removeUnused').alias('d')
+program.command('remove-unused').alias('d')
   .description('Delete a string and it\'s translations from your i18nexus project')
   .requiredOption('-k, --api-key <apiKey>', 'The API key for your project',
     process.env.I18NEXUS_API_KEY || I18NEXUS_API_KEY)
