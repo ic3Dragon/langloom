@@ -33,8 +33,9 @@ async function fetchRemoteKeys(namespace, language, apiKey) {
   console.info(colors.yellow('Fetching project keys...'));
   try {
     const keys = [];
-    const { data } = await axios.get(`${path}/translations/${language}/${namespace}.json?api_key=${apiKey}`);
-    await traverse(data, [], keys)
+    const response = await fetch(`${path}/translations/${language}/${namespace}.json?api_key=${apiKey}`);
+    const data = await response.json();
+    await traverse(data, [], keys);
     return keys;
   } catch (error) {
     console.error(colors.red(`Error fetching remote keys: ${error.message}`));
@@ -43,16 +44,15 @@ async function fetchRemoteKeys(namespace, language, apiKey) {
 }
 
 async function removeUnusedKeys(namespace, localKeys, language, apiKey, token) {
-  console.info(colors.yellow('Removing removed local keys from i18nexus project...'));
-
-  const result = { removed: 0, failed: 0 };
   const remoteKeys = await fetchRemoteKeys(namespace, language, apiKey);
-
   // check if any remote key does not exist locally
   if (!remoteKeys.some((key) => !localKeys.includes(key))) {
-    console.error(colors.red('No project keys to delete'));
+    console.error(colors.green('Already up to date! No project keys to delete.'));
     process.exit(1);
   }
+
+  console.info(colors.yellow('Removing removed local keys from i18nexus project...'));
+
   remoteKeys.forEach(async (key) => {
     if (!localKeys.includes(key)) {
       const id = {
@@ -72,17 +72,14 @@ async function removeUnusedKeys(namespace, localKeys, language, apiKey, token) {
         });
         if (response.status !== 204) {
           console.error(colors.red(`Failed to remove key "${key}" `, { error: error.message }))
-          result.failed++;
+        } else {
+          console.info(colors.green(`Deleted key "${key}"`))
         }
-        result.removed++;
-        console.info(colors.green(`Deleted key "${key}"`))
       } catch (error) {
         console.error(colors.red(`Failed to remove key "${key}" `, { error: error.message }))
-        result.failed++;
       }
     }
   })
-  return result;
 }
 
 const getProject = async (apiKey) => {

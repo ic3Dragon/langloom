@@ -40,8 +40,8 @@ program.command('remove-unused').alias('d')
   .action(async (options) => {
     const { namespace, language, apiKey, token } = options;
     const localKeys = await processLocalKeys(options.file);
-    const result = await removeUnusedKeys(namespace, localKeys.keys, language, apiKey, token);
-    console.info(colors.green(`Removed: ${result.removed}\n`), colors.red(`Failed: ${result.failed}`));
+    await removeUnusedKeys(namespace, localKeys.keys, language, apiKey, token);
+
   });
 
 //pull latest
