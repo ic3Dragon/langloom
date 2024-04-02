@@ -4,8 +4,8 @@ const colors = require('colors');
 const { Command } = require('commander');
 const pkg = require('../package.json');
 const { I18NEXUS_API_KEY, I18NEXUS_API_BEARER } = require('../env');
-const { processLocalData, processLocalKeys } = require('../src/file');
-const { importKeys, removeUnusedKeys } = require('../src/api');
+const { processLocalData, processLocalKeys, saveLocales } = require('../src/file');
+const { importKeys, removeUnusedKeys, fetchLatest, getProject } = require('../src/api');
 
 const program = new Command();
 
@@ -43,6 +43,31 @@ program.command('remove-unused').alias('d')
     const result = await removeUnusedKeys(namespace, localKeys.keys, language, apiKey, token);
     console.info(colors.green(`Removed: ${result.removed}\n`), colors.red(`Failed: ${result.failed}`));
   });
+
+//pull latest
+program.command('pull-latest').alias('p')
+  .description('Overwrite local locale files with latest project translations.')
+  .requiredOption('-k, --api-key <apiKey>', 'The API key for your project',
+    process.env.I18NEXUS_API_KEY || I18NEXUS_API_KEY)
+  .option(
+    '-c, --confirmed',
+    'Only download confirmed translations',
+    false
+  )
+  .option(
+    '--clear',
+    'Removes and rebuilds the destination folder before download',
+    false
+  )
+  .option('-p, --path <path>', 'Path to the destination folder where to place downloaded translations')
+  .action(async (options) => {
+    const translations = await fetchLatest(options.apiKey, options.confirmed);
+    const { library } = await getProject(options.apiKey);
+    await saveLocales(translations, library, options.path, options.clear)
+  });
+
+// //update string
+// program.command('')
 
 program.parse(process.argv);
 

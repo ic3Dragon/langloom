@@ -46,7 +46,6 @@ async function removeUnusedKeys(namespace, localKeys, language, apiKey, token) {
   console.info(colors.yellow('Removing removed local keys from i18nexus project...'));
 
   const result = { removed: 0, failed: 0 };
-
   const remoteKeys = await fetchRemoteKeys(namespace, language, apiKey);
 
   // check if any remote key does not exist locally
@@ -54,14 +53,12 @@ async function removeUnusedKeys(namespace, localKeys, language, apiKey, token) {
     console.error(colors.red('No project keys to delete'));
     process.exit(1);
   }
-
   remoteKeys.forEach(async (key) => {
     if (!localKeys.includes(key)) {
       const id = {
         key: key,
         namespace: namespace
       };
-
       try {
         const response = await fetch(`${path}/base_strings.json?api_key=${apiKey}`, {
           method: 'DELETE',
@@ -73,12 +70,10 @@ async function removeUnusedKeys(namespace, localKeys, language, apiKey, token) {
             'Content-Type': 'application/json'
           }
         });
-
         if (response.status !== 204) {
           console.error(colors.red(`Failed to remove key "${key}" `, { error: error.message }))
           result.failed++;
         }
-
         result.removed++;
         console.info(colors.green(`Deleted key "${key}"`))
       } catch (error) {
@@ -87,7 +82,31 @@ async function removeUnusedKeys(namespace, localKeys, language, apiKey, token) {
       }
     }
   })
-
   return result;
 }
-module.exports = { importKeys, removeUnusedKeys, fetchRemoteKeys };
+
+const getProject = async (apiKey) => {
+  const url = `${path}/project.json?api_key=${apiKey}`;
+  try {
+    const response = await fetch(url);
+    return response.json();
+  } catch (error) {
+    console.error(colors.red(`Error fetching project data: ${error.message}`));
+    process.exit(1);
+  }
+};
+
+async function fetchLatest(apiKey, confirmed) {
+  console.info(colors.yellow('Fetching project translations...'));
+  try {
+    const res = await fetch(`${path}/translations.json?api_key=${apiKey}&confirmed=${confirmed}`);
+    const translations = await res.json();
+    return translations;
+  } catch (error) {
+    console.error(colors.red(`Error fetching translations: ${error.message}`));
+    process.exit(1);
+  }
+
+}
+
+module.exports = { importKeys, removeUnusedKeys, fetchRemoteKeys, fetchLatest, getProject };
