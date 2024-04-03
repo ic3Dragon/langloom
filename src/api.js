@@ -96,7 +96,7 @@ const getProject = async (apiKey) => {
 
 async function fetchLatest(apiKey, confirmed) {
   console.info(colors.yellow('Fetching project translations...'));
-  const response = await fetch(`${path}/translations.json?api_key=${apiKey.n}&confirmed=${confirmed}`);
+  const response = await fetch(`${path}/translations.json?api_key=${apiKey}&confirmed=${confirmed}`);
   if (response.status !== 200) {
     console.error(colors.red(`Couldn't fetch translations.\nError: ${response.status} (${response.statusText})\n`));
     process.exit(1);
