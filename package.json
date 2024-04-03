@@ -8,7 +8,9 @@
   },
   "author": "Catherine Östlund (ic3dragon)",
   "license": "MIT",
-  "private": true,
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "keywords": [
     "i18nexus",
     "cli",
