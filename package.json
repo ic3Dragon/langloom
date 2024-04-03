@@ -1,19 +1,23 @@
 {
-  "name": "nexus-bridge-cli",
+  "name": "langloom",
   "version": "1.0.0",
-  "description": "A command line interface (CLI) tool for managig localization keys and values with i18nexus",
+  "description": "A command line interface (CLI) tool for managing localization files during development with the i18nexus API",
   "main": "index.js",
   "bin": {
-    "nexus-bridge": "./bin/index.js"
+    "langloom": "./bin/index.js"
   },
   "author": "Catherine Östlund (ic3dragon)",
   "license": "MIT",
   "private": true,
-  "scripts": {
-    "lint": "eslint . --fix"
-  },
+  "keywords": [
+    "i18nexus",
+    "cli",
+    "i18next",
+    "next-intl",
+    "react-intl"
+  ],
   "dependencies": {
-    "axios": "^1.6.8",
+    "@next/env": "^14.1.4",
     "colors": "^1.4.0",
     "commander": "^12.0.0",
     "eslint": "^8.57.0",
