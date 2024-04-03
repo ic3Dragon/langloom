@@ -184,7 +184,7 @@ nexus-bridge update-string -k YOUR_API_KEY -t YOUR_TOKEN -ns common -o old-key -
 
 ## Example Workflow
 
-- Pull latest confirmed translations into codebase with and remove old files `langloom pull-latest --confirmed --clear`.
+- Pull latest confirmed translations into codebase and clear old files `langloom pull-latest --confirmed --clear`.
 - Extract keys into your locale file using your typical method.
 - Remove keys from the base file that are no longer in use.
 - Update values and key names of keys that exist in the project. 
