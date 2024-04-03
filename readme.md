@@ -142,7 +142,7 @@ langloom remove-unused -k <apiKey> -t <token> -f <path> -ns <name> -l <language>
 - `-t, --token <token>`: A personal access token generated for your account in i18nexus.
 - `-f, --file <path>`: Path to the local JSON locale file for your base language.
 - `-ns, --namespace <name>`: Namespace in i18nexus.
-- `-l, --language <language>`: Language of locale file to import to i18nexus.
+- `-l, --language <language>`: Base language of project to compare keys against.
 
 #### Example
 

@@ -49,7 +49,7 @@ program.command('remove-unused').alias('d')
   .requiredOption('-t, --token <token>', 'A personal access token generated for your account in i18nexus.', process.env.I18NEXUS_API_BEARER)
   .requiredOption('-f, --file <path>', 'Path to the local JSON locale file for your base language')
   .requiredOption('-ns, --namespace <name>', 'Namespace in i18nexus')
-  .requiredOption('-l, --language <language>', 'Language of locale file to import to i18nexus')
+  .requiredOption('-l, --language <language>', 'Base language of project to compare keys against')
   .action(async (options) => {
     const { namespace, language, apiKey, token } = options;
     const localKeys = await processLocalKeys(options.file);
