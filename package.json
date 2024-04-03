@@ -8,6 +8,7 @@
   },
   "author": "Catherine Östlund (ic3dragon)",
   "license": "MIT",
+  "repository": "https://github.com/ic3Dragon/langloom",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
