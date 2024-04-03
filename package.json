@@ -4,13 +4,13 @@
   "description": "A command line interface (CLI) tool for managing localization files during development with the i18nexus API",
   "main": "index.js",
   "bin": {
-    "langloom": "./bin/index.js"
+    "langloom": "bin/index.js"
   },
   "author": "Catherine Östlund (ic3dragon)",
   "license": "MIT",
-  "repository": "https://github.com/ic3Dragon/langloom",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ic3Dragon/langloom.git"
   },
   "keywords": [
     "i18nexus",
