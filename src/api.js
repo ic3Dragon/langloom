@@ -108,6 +108,14 @@ async function fetchLatest(apiKey, confirmed, namespaces) {
   if (namespaces.length > 0) {
     for (let language in translations) {
       filteredByNamespaces[language] = {};
+
+      namespaces.forEach((ns) => {
+        if (translations[language][ns] === undefined) {
+          console.error(colors.red(`Sorry, the namespace ${ns} does not exist.`));
+          process.exit(1);
+        }
+      });
+
       for (let namespace in translations[language]) {
         namespaces.forEach(chosenNS => {
           if (chosenNS.toLowerCase() === namespace) {
