@@ -94,7 +94,7 @@ const getProject = async (apiKey) => {
   return response.json();
 };
 
-async function fetchLatest(apiKey, confirmed) {
+async function fetchLatest(apiKey, confirmed, namespaces) {
   console.info(colors.yellow('Fetching project translations...'));
   const response = await fetch(`${path}/translations.json?api_key=${apiKey}&confirmed=${confirmed}`);
   if (response.status !== 200) {
@@ -102,7 +102,25 @@ async function fetchLatest(apiKey, confirmed) {
     process.exit(1);
   }
   const translations = await response.json();
-  return translations;
+
+  let filteredByNamespaces = {}
+
+  if (namespaces.length > 0) {
+    for (let language in translations) {
+      filteredByNamespaces[language] = {};
+      for (let namespace in translations[language]) {
+        namespaces.forEach(chosenNS => {
+          if (chosenNS.toLowerCase() === namespace) {
+            filteredByNamespaces[language][namespace] = translations[language][namespace];
+          }
+        })
+      }
+    }
+  } else {
+    filteredByNamespaces = { ...translations };
+  }
+
+  return filteredByNamespaces;
 }
 
 async function updateString(stringToUpdate, apiKey, token) {
