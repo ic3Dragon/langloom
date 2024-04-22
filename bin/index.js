@@ -24,8 +24,9 @@ program.command('pull-latest').alias('p')
   .option('-c, --confirmed', 'Only download confirmed translations', false)
   .option('--clear', 'Removes and rebuilds the destination folder before download', false)
   .option('-p, --path <path>', 'Path to the destination folder where to place downloaded translations if other than framework defaults')
+  .option('-ns, --namespaces [namespaces...]', 'Name/names of namespaces to retrieve if you do not want all of them', [])
   .action(async (options) => {
-    const translations = await fetchLatest(options.apiKey, options.confirmed);
+    const translations = await fetchLatest(options.apiKey, options.confirmed, options.namespaces);
     const { library } = await getProject(options.apiKey);
     await saveLocales(translations, library, options.path, options.clear)
   });

@@ -38,7 +38,7 @@ npm install -g langloom
 To overwrite local locale files with the latest project translations from i18nexus, use the `pull-latest` command:
 
 ```bash
-langloom pull-latest -k <apiKey> [-c] [--clear] [-p <path>]
+langloom pull-latest -k <apiKey> [-c] [--clear] [-p <path>] [-ns [namespaces...]]
 ```
 
 #### Options:
@@ -47,11 +47,12 @@ langloom pull-latest -k <apiKey> [-c] [--clear] [-p <path>]
 - `[-c, --confirmed]` (Optional): Only download confirmed translations. (Default: false)
 - `[--clear]` (Optional): Removes and rebuilds the destination folder before download. (Default: false)
 - `[-p, --path <path>]` (Optional): Path to the destination folder where to place downloaded translations if other than framework defaults (see below).
+-   `-ns, --namespaces [namespaces...]` (Optional): Name/names of namespaces to retrieve if you do not want all of them. (Pulls all by default).
 
 #### Example
 
 ```bash
-langloom pull-latest -k YOUR_API_KEY -c --clear -p ./src/custom/path
+langloom pull-latest -k YOUR_API_KEY -c --clear -p ./src/custom/path -ns common home
 ```
 
 #### Default download paths
