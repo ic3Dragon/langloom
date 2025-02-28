@@ -70,12 +70,13 @@ program
   .option('-n, --newKey <newKey>', 'The NEW key of the string')
   .option('-v, --value <stringValue>', 'The new value of the string')
   .option('-d, --details <stringDetails>', 'The new details of the string')
+  .option('-i, --aiInstructions <AIPrompt>', 'Instructions/context for AI translator')
   .option('-r, --reset', 'Reset confirmed translations of this string with machine translations.', false)
   .action(async (options) => {
-    const { apiKey, token, namespace, oldKey, newKey, value, details, reset } = options;
+    const { apiKey, token, namespace, oldKey, newKey, value, details, aiInstructions, reset } = options;
 
-    if (!(newKey || value || details)) {
-      console.error(colors.red('Nothing to update. Please provide a new value, key or details for the string.'));
+    if (!(newKey || value || details || aiInstructions)) {
+      console.error(colors.red('Nothing to update. Please provide a new value, key, details or ai instructions for the string.'));
       process.exit(1);
     }
     const stringToUpdate = {
@@ -87,6 +88,7 @@ program
       value: value,
       namespace: namespace,
       description: details,
+      ai_instructions: aiInstructions,
       reset_confirmed: reset
     };
     await updateString(stringToUpdate, apiKey, token);

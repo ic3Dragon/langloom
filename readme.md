@@ -1,12 +1,14 @@
 # LangLoom CLI
 
-*"Weaving the threads of language together"*
+_**Version 1.2 - Now updated to support AI instructions when updating strings.**_
 
 LangLoom CLI is a tool designed to manage localization keys and values for i18nexus projects efficiently. It offers functionalities to import base strings from local JSON files into i18nexus projects and remove unused local keys from i18nexus projects as well as download the latest project translations and update individual keys.
 
 It is designed for developer oriented workflow that treats the local base language-file as a working copy that you then use to keep your remote project up to date with. You pull the latest translations, modify the local file as needed and sync it with the remote i18nexus project. 
 
 An example of a suggested workflow can be found at the end of this document.
+
+*"Weaving the threads of language together"*
 
 ## Environment Variables
 The commands below require the inclusion of an api-key and most also need a personal access token. These can be set with environment variables in your project. This package will load the .env file in the current working directory to check for i18nexus variables of this format:
@@ -158,7 +160,7 @@ langloom remove-unused -k YOUR_API_KEY -t YOUR_TOKEN -f ./path/to/your/locale.js
 To update a single base string key, value, or details in your i18nexus project, use the `update-string` command:
 
 ```bash
-nexus-bridge update-string -k <apiKey> -t <token> -ns <namespace> -o <oldKey> [-n <newKey>] [-v <stringValue>] [-d <stringDetails>] [-r]
+langloom update-string -k <apiKey> -t <token> -ns <namespace> -o <oldKey> [-n <newKey>] [-v <stringValue>] [-d <stringDetails>] [-i <AIPrompt>] [-r]
 ```
 
 #### Options:
@@ -173,6 +175,7 @@ Optional
 - `-n, --newKey <newKey>`: The NEW key of the string.
 - `-v, --value <stringValue>`: The new value of the string.
 - `-d, --details <stringDetails>`: The new details of the string.
+- `-i, --aiInstructions <AIPrompt>`: Instructions/context for AI translator.
 - `-r, --reset`: Reset confirmed translations of this string with machine translations.
 
 *Note that even if they are optional you will need to supply either a new key, a new value or details.*
@@ -180,7 +183,7 @@ Optional
 #### Example:
 
 ```bash
-nexus-bridge update-string -k YOUR_API_KEY -t YOUR_TOKEN -ns common -o old-key -n new-key -v "New value" -d "New details" -r
+nexus-bridge update-string -k YOUR_API_KEY -t YOUR_TOKEN -ns common -o old-key -n new-key -v "New value" -d "New details" -i "Instructions for the ai regarding tone or the context for how the string is used" -r 
 ```
 
 ## Example Workflow
