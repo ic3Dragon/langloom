@@ -41,7 +41,7 @@ REMEMBER: Keep these tokens a secret and do NOT publish them to any public code 
 
 ## Installation
 
-To use Nexus Bridge CLI, you can install it globally via npm:
+To use LangLoom CLI, you can install it globally via npm:
 
 ```bash
 npm install -g langloom
