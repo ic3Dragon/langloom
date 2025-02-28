@@ -1,7 +1,5 @@
 # LangLoom CLI
 
-_**Version 1.2 - Now updated to support AI instructions when updating strings.**_
-
 LangLoom CLI is a tool designed to manage localization keys and values for i18nexus projects efficiently. It offers functionalities to import base strings from local JSON files into i18nexus projects and remove unused local keys from i18nexus projects as well as download the latest project translations and update individual keys.
 
 It is designed for developer oriented workflow that treats the local base language-file as a working copy that you then use to keep your remote project up to date with. You pull the latest translations, modify the local file as needed and sync it with the remote i18nexus project. 
@@ -9,6 +7,14 @@ It is designed for developer oriented workflow that treats the local base langua
 An example of a suggested workflow can be found at the end of this document.
 
 *"Weaving the threads of language together"*
+
+## Updates
+
+_**Version 1.2**_
+
+- Now supporting AI instructions when updating strings.
+- Updated dependencies
+- Rename the alias for `--namespace` from `-ns` to `-s` in all commands to support newer version of `commander`.
 
 ## Environment Variables
 The commands below require the inclusion of an api-key and most also need a personal access token. These can be set with environment variables in your project. This package will load the .env file in the current working directory to check for i18nexus variables of this format:
@@ -40,7 +46,7 @@ npm install -g langloom
 To overwrite local locale files with the latest project translations from i18nexus, use the `pull-latest` command:
 
 ```bash
-langloom pull-latest -k <apiKey> [-c] [--clear] [-p <path>] [-ns [namespaces...]]
+langloom pull-latest -k <apiKey> [-c] [--clear] [-p <path>] [-s [namespaces...]]
 ```
 
 #### Options:
@@ -49,12 +55,12 @@ langloom pull-latest -k <apiKey> [-c] [--clear] [-p <path>] [-ns [namespaces...]
 - `[-c, --confirmed]` (Optional): Only download confirmed translations. (Default: false)
 - `[--clear]` (Optional): Removes and rebuilds the destination folder before download. (Default: false)
 - `[-p, --path <path>]` (Optional): Path to the destination folder where to place downloaded translations if other than framework defaults (see below).
--   `-ns, --namespaces [namespaces...]` (Optional): Name/names of namespaces to retrieve if you do not want all of them. (Pulls all by default).
+-   `-s, --namespaces [namespaces...]` (Optional): Name/names of namespaces to retrieve if you do not want all of them. (Pulls all by default).
 
 #### Example
 
 ```bash
-langloom pull-latest -k YOUR_API_KEY -c --clear -p ./src/custom/path -ns common home
+langloom pull-latest -k YOUR_API_KEY -c --clear -p ./src/custom/path -s common home
 ```
 
 #### Default download paths
@@ -111,7 +117,7 @@ The default path used depends on your project setting in i18nexus. If you wish t
 To add and update base strings to your i18nexus project from a local JSON file, use the `import` command:
 
 ```bash
-langloom import -k <apiKey> -t <token> -f <path> -ns <name> -l <language>
+langloom import -k <apiKey> -t <token> -f <path> -s <name> -l <language>
 ```
 
 #### Options:
@@ -119,13 +125,13 @@ langloom import -k <apiKey> -t <token> -f <path> -ns <name> -l <language>
 - `-k, --api-key <apiKey>`: The API key for your i18nexus project.
 - `-t, --token <token>`: A personal access token generated for your account in i18nexus.
 - `-f, --file <path>`: Path to the local JSON locale file for your base language.
-- `-ns, --namespace <name>`: Namespace in i18nexus.
+- `-s, --namespace <name>`: Namespace in i18nexus.
 - `-l, --language <language>`: Language of locale file to import to i18nexus.
 
 #### Example
 
 ```bash
-langloom import -k YOUR_API_KEY -t YOUR_TOKEN -f ./path/to/your/locale.json -ns common -l en
+langloom import -k YOUR_API_KEY -t YOUR_TOKEN -f ./path/to/your/locale.json -s common -l en
 ```
 
 ---
@@ -136,7 +142,7 @@ langloom import -k YOUR_API_KEY -t YOUR_TOKEN -f ./path/to/your/locale.json -ns 
 To delete a string and its translations from your i18nexus project, use the `remove-unused` command:
 
 ```bash
-langloom remove-unused -k <apiKey> -t <token> -f <path> -ns <name> -l <language>
+langloom remove-unused -k <apiKey> -t <token> -f <path> -s <name> -l <language>
 ```
 
 #### Options:
@@ -144,13 +150,13 @@ langloom remove-unused -k <apiKey> -t <token> -f <path> -ns <name> -l <language>
 - `-k, --api-key <apiKey>`: The API key for your i18nexus project.
 - `-t, --token <token>`: A personal access token generated for your account in i18nexus.
 - `-f, --file <path>`: Path to the local JSON locale file for your base language.
-- `-ns, --namespace <name>`: Namespace in i18nexus.
+- `-s, --namespace <name>`: Namespace in i18nexus.
 - `-l, --language <language>`: Base language of project to compare keys against.
 
 #### Example
 
 ```bash
-langloom remove-unused -k YOUR_API_KEY -t YOUR_TOKEN -f ./path/to/your/locale.json -ns common -l en
+langloom remove-unused -k YOUR_API_KEY -t YOUR_TOKEN -f ./path/to/your/locale.json -s common -l en
 ```
 
 ---
@@ -160,7 +166,7 @@ langloom remove-unused -k YOUR_API_KEY -t YOUR_TOKEN -f ./path/to/your/locale.js
 To update a single base string key, value, or details in your i18nexus project, use the `update-string` command:
 
 ```bash
-langloom update-string -k <apiKey> -t <token> -ns <namespace> -o <oldKey> [-n <newKey>] [-v <stringValue>] [-d <stringDetails>] [-i <AIPrompt>] [-r]
+langloom update-string -k <apiKey> -t <token> -s <namespace> -o <oldKey> [-n <newKey>] [-v <stringValue>] [-d <stringDetails>] [-i <AIPrompt>] [-r]
 ```
 
 #### Options:
@@ -168,7 +174,7 @@ langloom update-string -k <apiKey> -t <token> -ns <namespace> -o <oldKey> [-n <n
 Required
 - `-k, --api-key <apiKey>`: The API key for your i18nexus project.
 - `-t, --token <token>`: A personal access token generated for your account in i18nexus.
-- `-ns, --namespace <namespace>`: Namespace in i18nexus.
+- `-s, --namespace <namespace>`: Namespace in i18nexus.
 - `-o, --oldKey <oldKey>`: The OLD/current key of the string.
 
 Optional
@@ -183,7 +189,7 @@ Optional
 #### Example:
 
 ```bash
-nexus-bridge update-string -k YOUR_API_KEY -t YOUR_TOKEN -ns common -o old-key -n new-key -v "New value" -d "New details" -i "Instructions for the ai regarding tone or the context for how the string is used" -r 
+nexus-bridge update-string -k YOUR_API_KEY -t YOUR_TOKEN -s common -o old-key -n new-key -v "New value" -d "New details" -i "Instructions for the ai regarding tone or the context for how the string is used" -r 
 ```
 
 ## Example Workflow

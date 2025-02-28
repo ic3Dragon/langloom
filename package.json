@@ -1,6 +1,6 @@
 {
   "name": "langloom",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A command line interface (CLI) tool for managing localization files during development with the i18nexus API",
   "main": "index.js",
   "bin": {
