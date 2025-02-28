@@ -3,11 +3,11 @@ const colors = require('colors');
 
 const validateFile = (filePath) => {
   if (!filePath.match(/.json$/i)) {
-    console.log(colors.red(`Can only import json: ${filePath}\n`));
+    console.error(colors.red(`Can only import json: ${filePath}\n`));
     process.exit(1);
   }
   if (!fs.existsSync(filePath)) {
-    console.log(colors.red(`File was not found: ${filePath}\n`));
+    console.error(colors.red(`File was not found: ${filePath}\n`));
     process.exit(1);
   }
 }
@@ -114,7 +114,7 @@ async function saveLocales(translations, library, destination, clear) {
         }
       }
     };
-    console.log(colors.green('Translations downloaded successfully 🎉 \n'));
+    console.info(colors.green('Translations downloaded successfully 🎉 \n'));
   } catch (error) {
     console.error(colors.red(`Error saving to file: ${error.message}\n`));
     process.exit(1);
@@ -123,7 +123,7 @@ async function saveLocales(translations, library, destination, clear) {
 
 async function traverse(data, tempKeys, resultKeys) {
   for (const key in data) {
-    if (data.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(data, key)) {
       const currentKeys = [...tempKeys, key];
       if (typeof data[key] === 'object') {
         await traverse(data[key], currentKeys, resultKeys);
