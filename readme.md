@@ -10,7 +10,11 @@ An example of a suggested workflow can be found at the end of this document.
 
 ## Updates
 
-_**Version 1.2.1**_
+_Version 1.2.2_
+
+- Update error messages to include response body to provide more help when diagnosing what went wrong.
+
+_Version 1.2.1_
 
 - Update readme to reflect changes to `-ns`
 

@@ -21,7 +21,8 @@ async function importStrings(namespace, language, fileData, apiKey, token) {
     }
   });
   if (response.status !== 200) {
-    console.error(colors.red(`Couldn't upload local file.\nError: ${response.status} (${response.statusText})\n`));
+   const responseBody = await response.text();
+    console.error(colors.red(`Couldn't upload local file.\nError: ${response.status} (${response.statusText})\nResponse Body: ${responseBody}\n`));
     process.exit(1);
   }
   console.info(colors.green('Import successful 🎉 \n'));
@@ -32,7 +33,8 @@ async function fetchRemoteKeys(namespace, language, apiKey) {
   const keys = [];
   const response = await fetch(`${path}/translations/${language}/${namespace}.json?api_key=${apiKey}`);
   if (response.status !== 200) {
-    console.error(colors.red(`Couldn't fetch project keys.\nError: ${response.status} (${response.statusText})\n`));
+    const responseBody = await response.text();
+    console.error(colors.red(`Couldn't fetch project keys.\nError: ${response.status} (${response.statusText})\nResponse Body: ${responseBody}\n`));
     process.exit(1);
   }
   const data = await response.json();
@@ -59,7 +61,8 @@ async function removeUnusedKeys(namespace, localKeys, language, apiKey, token) {
         }
       });
       if (response.status !== 204) {
-        console.error(colors.red(`Failed to remove key "${key}"\nError: ${response.status} (${response.statusText})\n`));
+        const responseBody = await response.text();
+        console.error(colors.red(`Failed to remove key "${key}"\nError: ${response.status} (${response.statusText})\nResponse Body: ${responseBody}\n`));
       } else {
         console.info(colors.green(`Deleted key "${key}"`));
       }
@@ -70,7 +73,8 @@ async function removeUnusedKeys(namespace, localKeys, language, apiKey, token) {
 const getProject = async (apiKey) => {
   const response = await fetch(`${path}/project.json?api_key=${apiKey}`);
   if (response.status !== 200) {
-    console.error(colors.red(`Couldn't fetch project data.\nError: ${response.status} (${response.statusText})\n`));
+    const responseBody = await response.text();
+    console.error(colors.red(`Couldn't fetch project data.\nError: ${response.status} (${response.statusText})\nResponse Body: ${responseBody}\n`));
     process.exit(1);
   }
   return response.json();
@@ -80,7 +84,8 @@ async function fetchLatest(apiKey, confirmed, namespaces) {
   console.info(colors.yellow('Fetching project translations...'));
   const response = await fetch(`${path}/translations.json?api_key=${apiKey}&confirmed=${confirmed}`);
   if (response.status !== 200) {
-    console.error(colors.red(`Couldn't fetch translations.\nError: ${response.status} (${response.statusText})\n`));
+    const responseBody = await response.text();
+    console.error(colors.red(`Couldn't fetch translations.\nError: ${response.status} (${response.statusText})\nResponse Body: ${responseBody}\n`));
     process.exit(1);
   }
   const translations = await response.json();
@@ -118,7 +123,8 @@ async function updateString(stringToUpdate, apiKey, token) {
     }
   });
   if (response.status !== 200) {
-    console.error(colors.red(`Couldn't update string "${stringToUpdate.id.key}".\nError: ${response.status} (${response.statusText})`));
+    const responseBody = await response.text();
+    console.error(colors.red(`Couldn't update string "${stringToUpdate.id.key}".\nError: ${response.status} (${response.statusText})\nResponse Body: ${responseBody}\n`));
     process.exit(1);
   }
   console.info(colors.green(`Updated string "${stringToUpdate.id.key}" 🎉`));
