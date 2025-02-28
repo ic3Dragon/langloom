@@ -10,6 +10,10 @@ An example of a suggested workflow can be found at the end of this document.
 
 ## Updates
 
+_**Version 1.2.1**_
+
+- Update readme to reflect changes to `-ns`
+
 _**Version 1.2**_
 
 - Now supporting AI instructions when updating strings.
