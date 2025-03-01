@@ -197,7 +197,7 @@ Optional
 #### Example:
 
 ```bash
-nexus-bridge update-string -k YOUR_API_KEY -t YOUR_TOKEN -s common -o old-key -n new-key -v "New value" -d "New details" -i "Instructions for the ai regarding tone or the context for how the string is used" -r 
+langloom update-string -k YOUR_API_KEY -t YOUR_TOKEN -s common -o old-key -n new-key -v "New value" -d "New details" -i "Instructions for the ai regarding tone or the context for how the string is used" -r 
 ```
 
 ## Example Workflow
